@@ -1,11 +1,24 @@
 {{ block title }}
-    Decision
+    Encoding word number {{ player.round_number }}
 {{ endblock }}
 {{ block content }}
 
-    <p>You are encoding word number {{ player.round_number }}.</p>
-
-    <p>The lookup table is {{ subsession.lookup_dict }}.</p>
+<table class="table">
+    <thead>
+        <tr class="text-center fw-bold">
+            {{ for letter in subsession.lookup_dict.keys }}
+            <td>{{ letter }}</td>
+            {{ endfor }}
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="text-center">
+            {{ for value in subsession.lookup_dict.values }}
+            <td>{{ value }}</td>
+            {{ endfor }}
+        </tr>
+    </tbody>
+</table>
 
     <p>The word to encode is {{ subsession.word }}.</p>
 
