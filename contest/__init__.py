@@ -116,7 +116,7 @@ class Player(BasePlayer):
         return [rd for rd in self.in_all_rounds() if rd.subsession.is_paid]
 
     def store_payoffs(self):
-        self.participant.vars["earnings_contest"] = (
+        self.participant.earnings_contest = (
             sum(p.payoff for p in self.in_all_rounds())
         )
 

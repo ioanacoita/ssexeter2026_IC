@@ -72,7 +72,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     doc=""
 )
 
-PARTICIPANT_FIELDS = []
+PARTICIPANT_FIELDS = ["earnings_contest", "earnings_encryption"]
 SESSION_FIELDS = []
 
 # ISO-639 code
