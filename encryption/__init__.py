@@ -15,7 +15,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 3
     PAYMENT_PER_CORRECT = 0.10
-    TIME_FOR_TASK = 100000
+    TIME_FOR_TASK = 300
     RANDOM_SEED = 12345678
 
 
