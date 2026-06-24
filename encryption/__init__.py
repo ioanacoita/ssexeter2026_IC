@@ -1,4 +1,5 @@
 import string
+import time
 
 from otree.api import *
 
@@ -13,6 +14,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 3
     PAYMENT_PER_CORRECT = 0.10
+    TIME_FOR_TASK = 10
 
 
 class Subsession(BaseSubsession):
@@ -24,6 +26,9 @@ class Subsession(BaseSubsession):
         self.payment_per_correct = Currency(C.PAYMENT_PER_CORRECT)
         self.word="ABABA"
         self.lookup_table = string.ascii_uppercase
+
+        for player in self.get_players():
+            player.setup_round()
 
     @property
     def lookup_dict(self):
@@ -56,6 +61,20 @@ class Player(BasePlayer):
     response_4 = models.IntegerField()
     response_5 = models.IntegerField()
     is_correct = models.BooleanField()
+    started_task_at = models.FloatField()
+    time_elapsed = models.FloatField()
+    time_remaining = models.FloatField()
+
+    def setup_round(self):
+        self.time_for_task = C.TIME_FOR_TASK
+
+    def start_task(self):
+        self.started_task_at = time.time()
+
+    def get_time_remaining(self):
+        self.time_elapsed = time.time() - self.in_round(1).started_task_at
+        self.time_remaining = self.time_for_task - self.time_elapsed
+        return self.time_remaining
 
     @property
     def response_fields(self):
@@ -95,6 +114,10 @@ class Intro(Page):
     def is_displayed(player):
         return player.round_number == 1
 
+    @staticmethod
+    def before_next_page(player,timeout_happened):
+        player.start_task()
+
 
 class Decision(Page):
     form_model = "player"
@@ -106,6 +129,10 @@ class Decision(Page):
     @staticmethod
     def before_next_page(player,timeout_happened):
         player.check_response()
+
+    @staticmethod
+    def get_timeout_seconds(player):
+        return player.get_time_remaining()
 
 
 class Results(Page):
