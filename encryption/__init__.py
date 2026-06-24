@@ -14,7 +14,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 3
     PAYMENT_PER_CORRECT = 0.10
-    TIME_FOR_TASK = 10
+    TIME_FOR_TASK = 300
 
 
 class Subsession(BaseSubsession):
@@ -62,8 +62,8 @@ class Player(BasePlayer):
     response_5 = models.IntegerField()
     is_correct = models.BooleanField()
     started_task_at = models.FloatField()
-    time_elapsed = models.FloatField()
-    time_remaining = models.FloatField()
+    # time_elapsed = models.FloatField()
+    # time_remaining = models.FloatField()
 
     def setup_round(self):
         self.time_for_task = C.TIME_FOR_TASK
@@ -72,9 +72,9 @@ class Player(BasePlayer):
         self.started_task_at = time.time()
 
     def get_time_remaining(self):
-        self.time_elapsed = time.time() - self.in_round(1).started_task_at
-        self.time_remaining = self.time_for_task - self.time_elapsed
-        return self.time_remaining
+        # self.time_elapsed = time.time() - self.in_round(1).started_task_at
+        # self.time_remaining = self.time_for_task - self.time_elapsed
+        return self.time_for_task - (time.time() - self.in_round(1).started_task_at)
 
     @property
     def response_fields(self):
