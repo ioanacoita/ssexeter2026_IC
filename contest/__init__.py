@@ -13,7 +13,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 1
     NUM_PAID_ROUNDS = 1
-    ENDOWMENT = Currency(10)
+    ENDOWMENT = Currency(1000)
     COST_PER_TICKET = Currency(0.50)
     PRIZE = Currency(8)
 

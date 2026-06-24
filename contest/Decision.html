@@ -1,14 +1,55 @@
 {{ block title }}
     Decision
 {{ endblock }}
+
+{{ block scripts }}
+    <script>
+        $(document).ready(function() {
+        $(document).on('input change click', "[type=range]", function(){
+            $("#tickets_selected").html(
+                $(this).val()
+            );
+            $(this).removeClass("range-hidden-slider");
+            $(".otree-btn-next").removeClass("btn-secondary").addClass("btn-primary").prop("disabled", false);
+        });
+    });
+    </script>
+{{ endblock }}
+
+{{ block styles }}
+<style>
+.range-hidden-slider::-webkit-slider-thumb {
+    /* For Chrome, Safari, Edge Chromium */
+    opacity: 0;
+}
+.range-hidden-slider::-moz-range-thumb {
+    /* For Firefox */
+    opacity: 0;
+}
+</style>
+{{ endblock }}
+
+
 {{ block content }}
 
-Your endowment is {{ player.endowment }}.
-Each ticket costs {{ player.cost_per_ticket }}.
-Therefore you can purchase up to {{ player.max_tickets_affordable }}.
-The prize is worth {{ group.prize }}.
+<ul>
+<li>Your endowment is {{ player.endowment }}.</li>
+<li>Each ticket costs {{ player.cost_per_ticket }}.</li>
+<li>Therefore you can purchase up to {{ player.max_tickets_affordable }}.</li>
+<li>The prize is worth {{ group.prize }}.</li>
+</ul>
 
-    {{ formfields }}
-    {{ next_button }}
+<input type="range" class="form-range range-hidden-slider" min="0" max="{{ player.max_tickets_affordable }}" name="tickets_purchased">
+
+    <p class="text-center">
+    Number of tickets selected to purchase:
+    <span id="tickets_selected"></span>
+</p>
+
+<div class="row justify-content-center p-3">
+    <div class="col-4">
+        <button class="otree-btn-next btn btn-secondary w-100" disabled>Confirm purchase</button>
+    </div>
+</div>
 
 {{ endblock }}
